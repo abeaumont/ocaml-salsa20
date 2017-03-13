@@ -1,0 +1,3 @@
+PKG salsa20-core alcotest
+
+B _build/
