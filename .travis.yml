@@ -3,8 +3,12 @@ install: wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.t
 script: bash -ex .travis-opam.sh
 sudo: required
 env:
-  - PACKAGE="salsa20-core" OCAML_VERSION=4.02
-  - PACKAGE="salsa20-core" OCAML_VERSION=4.03
-  - PACKAGE="salsa20-core" OCAML_VERSION=4.04
+  - PACKAGE=salsa20 OCAML_VERSION=4.02
+  - PACKAGE=salsa20 OCAML_VERSION=4.03
+  - PACKAGE=salsa20 OCAML_VERSION=4.04
+  - PACKAGE=salsa20 OCAML_VERSION=4.05
+matrix:
+  allow_failures:
+    - env: PACKAGE=salsa20 OCAML_VERSION=4.05
 notifications:
   email: false
