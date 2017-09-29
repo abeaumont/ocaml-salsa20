@@ -1,6 +1,6 @@
 version = "%%VERSION_NUM%%"
 description = "Salsa20 functions in pure OCaml"
-requires = "salsa20-core"
+requires = "salsa20-core nocrypto"
 archive(byte) = "salsa20.cma"
 archive(native) = "salsa20.cmxa"
 plugin(byte) = "salsa20.cma"
