@@ -1,4 +1,6 @@
-let test_salsa20 ~hash ~key ~nonce ~input ~output0 ~output1 ~output2 ~output3 =
+let test_salsa20 ~hash ~key ~nonce ~input
+    ~output0 ~output1 ~output2 ~output3
+    ~offset0 ~offset1 ~offset2 ~offset3 =
   let open Nocrypto.Uncommon.Cs in
   let open Cstruct in
   let open Alcotest in
@@ -15,10 +17,10 @@ let test_salsa20 ~hash ~key ~nonce ~input ~output0 ~output1 ~output2 ~output3 =
       |> Salsa20.encrypt input
       |> to_string in
     check int "Salsa20 test output length" (Cstruct.len input) (String.length stream);
-    check string "Salsa20 test block 0 value" (String.sub stream 0 64) output0;
-    check string "Salsa20 test block 1 value" (String.sub stream 192 64) output1;
-    check string "Salsa20 test block 2 value" (String.sub stream 256 64) output2;
-    check string "Salsa20 test block 3 value" (String.sub stream 448 64) output3)
+    check string "Salsa20 test block 0 value" (String.sub stream offset0 64) output0;
+    check string "Salsa20 test block 1 value" (String.sub stream offset1 64) output1;
+    check string "Salsa20 test block 2 value" (String.sub stream offset2 64) output2;
+    check string "Salsa20 test block 3 value" (String.sub stream offset3 64) output3)
 
 let salsa20_8_tests = [
   (* TODO *)
@@ -29,8 +31,15 @@ let salsa20_12_tests = [
 ]
 
 let test_salsa20_20 ~key ~nonce ~input ~output0 ~output1 ~output2 ~output3 =
+  let short = String.length input == 1024 in
+  let offset0 = 0
+  and offset1 = if short then 192 else 65472
+  and offset2 = if short then 256 else 65536
+  and offset3 = if short then 448 else 131008 in
   test_salsa20 ~hash:Salsa20_core.salsa20_20_core
-    ~key ~nonce ~input ~output0 ~output1 ~output2 ~output3
+    ~key ~nonce ~input
+    ~output0 ~output1 ~output2 ~output3
+    ~offset0 ~offset1 ~offset2 ~offset3
 
 let salsa20_20_128bit_ecrypt_set1_vector0_test =
   test_salsa20_20
@@ -1643,7 +1652,7 @@ let salsa20_20_128bit_ecrypt_set4_vector0_test =
   test_salsa20_20
     ~key:"0053A6F94C9FF24598EB3E91E4378ADD"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("BE4EF3D2FAC6C4C3D822CE67436A407C" ^
               "C237981D31A65190B51053D13A19C89F" ^
               "C90ACB45C8684058733EDD259869C58E" ^
@@ -1665,7 +1674,7 @@ let salsa20_20_128bit_ecrypt_set4_vector1_test =
   test_salsa20_20
     ~key:"0558ABFE51A4F74A9DF04396E93C8FE2"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("BA1A48247B8C44AAF12F5645D65FF7F4" ^
               "E4D7C404EE0CBB691355FAEB82D03B99" ^
               "AD0FDFC20A1E593973E5B8F0264F7FB0" ^
@@ -1687,7 +1696,7 @@ let salsa20_20_128bit_ecrypt_set4_vector2_test =
   test_salsa20_20
     ~key:"0A5DB00356A9FC4FA2F5489BEE4194E7"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("8313F4A86F697AAC985182862E4FC623" ^
               "3511C46B6DAEEDB94B63461111CB4768" ^
               "72F1BC3B4E8EE80A4ADE7D1A8CD49C17" ^
@@ -1709,7 +1718,7 @@ let salsa20_20_128bit_ecrypt_set4_vector3_test =
   test_salsa20_20
     ~key:"0F62B5085BAE0154A7FA4DA0F34699EC"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("62765613D127804ECD0F82D208D70156" ^
               "3B1685EEF67945DAE2900307CDB14EA6" ^
               "2474A439D8BAE8005493455471E7BCB9" ^
@@ -1907,7 +1916,7 @@ let salsa20_20_128bit_ecrypt_set6_vector0_test =
   test_salsa20_20
     ~key:"0053A6F94C9FF24598EB3E91E4378ADD"
     ~nonce:"0D74DB42A91077DE"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("05E1E7BEB697D999656BF37C1B978806" ^
               "735D0B903A6007BD329927EFBE1B0E2A" ^
               "8137C1AE291493AA83A821755BEE0B06" ^
@@ -1929,7 +1938,7 @@ let salsa20_20_128bit_ecrypt_set6_vector1_test =
   test_salsa20_20
     ~key:"0558ABFE51A4F74A9DF04396E93C8FE2"
     ~nonce:"167DE44BB21980E7"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("EF5236C33EEEC2E337296AB237F99F56" ^
               "A48639744788E128BC05275D4873B9F0" ^
               "FAFDA8FAF24F0A61C2903373F3DE3E45" ^
@@ -1951,7 +1960,7 @@ let salsa20_20_128bit_ecrypt_set6_vector2_test =
   test_salsa20_20
     ~key:"0A5DB00356A9FC4FA2F5489BEE4194E7"
     ~nonce:"1F86ED54BB2289F0"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("8B354C8F8384D5591EA0FF23E7960472" ^
               "B494D04B2F787FC87B6569CB9021562F" ^
               "F5B1287A4D89FB316B69971E9B861A10" ^
@@ -1973,7 +1982,7 @@ let salsa20_20_128bit_ecrypt_set6_vector3_test =
   test_salsa20_20
     ~key:"0F62B5085BAE0154A7FA4DA0F34699EC"
     ~nonce:"288FF65DC42B92F9"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("71DAEE5142D0728B41B6597933EBF467" ^
               "E43279E30978677078941602629CBF68" ^
               "B73D6BD2C95F118D2B3E6EC955DABB6D" ^
@@ -3909,7 +3918,7 @@ let salsa20_20_256bit_ecrypt_set4_vector0_test =
   test_salsa20_20
     ~key:"0053A6F94C9FF24598EB3E91E4378ADD3083D6297CCF2275C81B6EC11467BA0D"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("F9D2DC274BB55AEFC2A0D9F8A982830F" ^
               "6916122BC0A6870F991C6ED8D00D2F85" ^
               "94E3151DE4C5A19A9A06FBC191C87BF0" ^
@@ -3931,7 +3940,7 @@ let salsa20_20_256bit_ecrypt_set4_vector1_test =
   test_salsa20_20
     ~key:"0558ABFE51A4F74A9DF04396E93C8FE23588DB2E81D4277ACD2073C6196CBF12"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("2F634849A4EDC206CE3E3F89949DF4E6" ^
               "EA9A0E3EE87F0AB108C4D3B789ACE673" ^
               "07AC8C54F07F30BAD9640B7F6EDEEC9D" ^
@@ -3953,7 +3962,7 @@ let salsa20_20_256bit_ecrypt_set4_vector2_test =
   test_salsa20_20
     ~key:"0A5DB00356A9FC4FA2F5489BEE4194E73A8DE03386D92C7FD22578CB1E71C417"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("0A8BBD088ABADC4D57D3389E32175878" ^
               "125BD89DE7E9D05DBF29B753F5F0C2CB" ^
               "F0EEF9333526E9308A114E06EB9564EB" ^
@@ -3975,7 +3984,7 @@ let salsa20_20_256bit_ecrypt_set4_vector3_test =
   test_salsa20_20
     ~key:"0F62B5085BAE0154A7FA4DA0F34699EC3F92E5388BDE3184D72A7DD02376C91C"
     ~nonce:"0000000000000000"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("4A671A2AE75DB7555BEA5995DC53AF8D" ^
               "C1E8776AF917A3AB2CA9827BCED53DA7" ^
               "00B779820F17294751A2C37EF5CCCFE9" ^
@@ -4173,7 +4182,7 @@ let salsa20_20_256bit_ecrypt_set6_vector0_test =
   test_salsa20_20
     ~key:"0053A6F94C9FF24598EB3E91E4378ADD3083D6297CCF2275C81B6EC11467BA0D"
     ~nonce:"0D74DB42A91077DE"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("F5FAD53F79F9DF58C4AEA0D0ED9A9601" ^
               "F278112CA7180D565B420A48019670EA" ^
               "F24CE493A86263F677B46ACE1924773D" ^
@@ -4195,7 +4204,7 @@ let salsa20_20_256bit_ecrypt_set6_vector1_test =
   test_salsa20_20
     ~key:"0558ABFE51A4F74A9DF04396E93C8FE23588DB2E81D4277ACD2073C6196CBF12"
     ~nonce:"167DE44BB21980E7"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("3944F6DC9F85B128083879FDF190F7DE" ^
               "E4053A07BC09896D51D0690BD4DA4AC1" ^
               "062F1E47D3D0716F80A9B4D85E6D6085" ^
@@ -4217,7 +4226,7 @@ let salsa20_20_256bit_ecrypt_set6_vector2_test =
   test_salsa20_20
     ~key:"0A5DB00356A9FC4FA2F5489BEE4194E73A8DE03386D92C7FD22578CB1E71C417"
     ~nonce:"1F86ED54BB2289F0"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("3FE85D5BB1960A82480B5E6F4E965A44" ^
               "60D7A54501664F7D60B54B06100A37FF" ^
               "DCF6BDE5CE3F4886BA77DD5B44E95644" ^
@@ -4239,7 +4248,7 @@ let salsa20_20_256bit_ecrypt_set6_vector3_test =
   test_salsa20_20
     ~key:"0F62B5085BAE0154A7FA4DA0F34699EC3F92E5388BDE3184D72A7DD02376C91C"
     ~nonce:"288FF65DC42B92F9"
-    ~input:(String.make 1024 '0')
+    ~input:(String.make 262144 '0')
     ~output0:("5E5E71F90199340304ABB22A37B6625B" ^
               "F883FB89CE3B21F54A10B81066EF87DA" ^
               "30B77699AA7379DA595C77DD59542DA2" ^
