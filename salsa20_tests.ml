@@ -1,7 +1,7 @@
 let test_salsa20 ~hash ~key ~nonce ~input
     ~output0 ~output1 ~output2 ~output3
     ~offset0 ~offset1 ~offset2 ~offset3 =
-  let open Nocrypto.Uncommon.Cs in
+  let open Salsa20_core.Utils in
   let open Cstruct in
   let open Alcotest in
   let key = of_hex key
