@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Salsa20" rel="Chapter" href="Salsa20.html"><title>Salsa20</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Salsa20.html">Salsa20</a></h1>
+
+<pre><span class="keyword">module</span> Salsa20: <code class="code"><span class="keyword">sig</span></code> <a href="Salsa20.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+<a href="http://cr.yp.to/snuffle/spec.pdf"> The Salsa20 specification</a>
+    specifies a Salsa20/20 encryption function as well as a set of
+    reduced Salsa20/8 and Salsa20/12 encryption functions.
+<p>
+
+    Note that only the 32-byte and 16-byte expansion function are
+    implemented since. The 10-byte expansion functions is not
+    supported, since it's not recommended. If you're interested in this
+    reduced key length, it can still be easily generated.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">?hash:(Cstruct.t -> Cstruct.t) -> Cstruct.t -> Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a></code></pre>
+<pre><span id="VALencrypt"><span class="keyword">val</span> encrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre>
+<pre><span id="VALdecrypt"><span class="keyword">val</span> decrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre></body></html>
