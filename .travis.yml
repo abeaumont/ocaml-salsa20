@@ -7,8 +7,5 @@ env:
   - PACKAGE=salsa20 OCAML_VERSION=4.03
   - PACKAGE=salsa20 OCAML_VERSION=4.04
   - PACKAGE=salsa20 OCAML_VERSION=4.05
-matrix:
-  allow_failures:
-    - env: PACKAGE=salsa20 OCAML_VERSION=4.05
 notifications:
   email: false
