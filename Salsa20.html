@@ -30,8 +30,27 @@
 <hr width="100%">
 
 <pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Type of Salsa20 state.<br>
+</div>
 
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">?hash:(Cstruct.t -> Cstruct.t) -> Cstruct.t -> Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a></code></pre>
-<pre><span id="VALencrypt"><span class="keyword">val</span> encrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre>
-<pre><span id="VALdecrypt"><span class="keyword">val</span> decrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre></body></html>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">?hash:(Cstruct.t -> Cstruct.t) -> Cstruct.t -> Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">create&nbsp;?hash&nbsp;key&nbsp;nonce</code> is <code class="code">state</code>,
+    the Salsa20 encryption/decryption function state.
+    <code class="code">hash</code> is Salsa20_core.salsa20_20_core by default (recommended),
+    Salsa20_core.salsa20_12_core or Salsa20_core.salsa20_8_core
+    could also be used instead.
+    <code class="code">key</code> is either a 32 (recommended) or 16 bytes.
+    <code class="code">nonce</code> is 8 bytes.<br>
+<b>Raises</b> <code>Invalid_argument</code> if <code class="code">key</code> or <code class="code">nonce</code> is not of the correct size<br>
+</div>
+
+<pre><span id="VALencrypt"><span class="keyword">val</span> encrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre><div class="info ">
+<code class="code">encrypt&nbsp;input&nbsp;state</code> is <code class="code">output</code>, the Salsa20 encryption function.<br>
+</div>
+
+<pre><span id="VALdecrypt"><span class="keyword">val</span> decrypt</span> : <code class="type">Cstruct.t -> <a href="Salsa20.html#TYPEt">t</a> -> Cstruct.t</code></pre><div class="info ">
+<code class="code">encrypt&nbsp;input&nbsp;state</code> is <code class="code">output</code>, the Salsa20 decryption function.<br>
+</div>
+</body></html>
