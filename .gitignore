@@ -12,3 +12,4 @@
 _build
 _tests
 salsa20.install
+.merlin

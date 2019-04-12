@@ -1,5 +1,6 @@
 # Unreleased
 
+* Move to dune
 * Upgrade to opam 2.0
 * Simplify `decrypt` function implementation
 
