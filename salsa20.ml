@@ -53,5 +53,4 @@ let encrypt input state =
   done;
   output
 
-let decrypt input state =
-  encrypt input state
+let decrypt = encrypt
