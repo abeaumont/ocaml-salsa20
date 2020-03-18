@@ -14,11 +14,11 @@ opam install salsa20
 ## Usage
 
 ```ocaml
-utop[0]> #require "nocrypto";;
-utop[1]> #require "nocrypto.unix";;
-utop[2]> Nocrypto_entropy_unix.initialize ();;
+utop[0]> #require "mirage-crypto";;
+utop[1]> #require "mirage-crypto-rng.unix";;
+utop[2]> Mirage_crypto_rng_unix.initialize ();;
 - : unit = ()
-utop[3]> let key = Nocrypto.Rng.generate 32;;
+utop[3]> let key = Mirage_crypto_rng.generate 32;;
 val key : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 32}
 utop[4]> let nonce = Cstruct.create 8;;
 val nonce : Cstruct.t = {Cstruct.buffer = <abstr>; off = 0; len = 8}
@@ -26,7 +26,7 @@ utop[5]> #require "salsa20";;
 utop[6]> let state = Salsa20.create key nonce;;
 val state : Salsa20.t = <abstr>
 utop[7]> Salsa20.encrypt (Cstruct.of_string "My secret text") state |> Cstruct.to_string;;
-- : string = " 2\193\020`\142\182\234\188H[R\241V"
+- : string = " 2\\193\\020`\\142\\182\\234\\188H[R\\241V"
 ```
 
 * Key can either 32 (recommended) or 16 bytes
