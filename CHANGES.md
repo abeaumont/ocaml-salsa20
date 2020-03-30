@@ -1,3 +1,8 @@
+# 1.1.0 (2020-03-31)
+
+* Use mirage-crypto instead of nocrypto (by @hannesm)
+* Stop using Salsa20_core.Utils (by @hannesm)
+
 # 1.0.0 (2019-04-12)
 
 * Move to dune
