@@ -15,7 +15,7 @@ let test_salsa20 ~hash ~key ~nonce ~input
       Salsa20.create ~hash key nonce
       |> Salsa20.encrypt input
       |> to_string in
-    check int "Salsa20 test output length" (Cstruct.len input) (String.length stream);
+    check int "Salsa20 test output length" (Cstruct.length input) (String.length stream);
     check string "Salsa20 test block 0 value" (String.sub stream offset0 64) output0;
     check string "Salsa20 test block 1 value" (String.sub stream offset1 64) output1;
     check string "Salsa20 test block 2 value" (String.sub stream offset2 64) output2;

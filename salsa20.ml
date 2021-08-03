@@ -7,9 +7,9 @@ type t = {
 }
 
 let expand key nonce =
-  if Cs.len nonce <> 8 then invalid_arg "nonce must be 8 byte long"
+  if Cs.length nonce <> 8 then invalid_arg "nonce must be 8 byte long"
   else
-    let (s, k0, k1) = match Cs.len key with
+    let (s, k0, k1) = match Cs.length key with
         32 -> let (k0, k1) = Cs.split key 16 in ("expand 32-byte k", k0, k1)
       | 16 -> ("expand 16-byte k", key, key)
       | _ -> invalid_arg "key must be either 32 (recommended) or 16 byte long)" in
@@ -38,12 +38,12 @@ let hash state =
     Cs.LE.set_uint32 state.state 36 nonce
 
 let encrypt input state =
-  let l = Cs.len input in
+  let l = Cs.length input in
   let output = Cs.create l in
   let i = ref 0 in
   while !i < l do
-    if Cs.len state.buffer = 0 then hash state;
-    let count = min (Cs.len state.buffer) (l - !i) in
+    if Cs.length state.buffer = 0 then hash state;
+    let count = min (Cs.length state.buffer) (l - !i) in
     let buffer = Cs.create count in
     Cs.blit input !i buffer 0 count;
     Mirage_crypto.Uncommon.Cs.xor_into state.buffer buffer count;

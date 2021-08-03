@@ -7,4 +7,4 @@
 (test
  (name salsa20_tests)
  (modules salsa20_tests)
- (libraries salsa20 alcotest))
+ (libraries cstruct salsa20 alcotest))
